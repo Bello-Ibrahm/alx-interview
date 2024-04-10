@@ -3,18 +3,15 @@
 
 
 def pascal_triangle(n):
+    """ Returns a list of lists of numbers
+    representing the pascal triangle """
     if n <= 0:
         return []
 
-    triangle = []
-    for i in range(n):
-        row = [1]  # First element of each row is always 1
-        for j in range(1, i + 1):
-            if j < len(triangle[i - 1]):
-                row.append(triangle[i - 1][j - 1] + triangle[i - 1][j])
-            else:
-                row.append(1)  # Last element of each row is always 1
+    triangle = [[1]]
+    for i in range(1, n):
+        prev_row = triangle[-1]
+        row = [1] + [prev_row[j] + prev_row[j + 1] for j in range(len(prev_row) - 1)] + [1]
         triangle.append(row)
 
     return triangle
-
