@@ -26,32 +26,30 @@ def canUnlockAll(boxes):
     is equal to the total number of boxes), the function
     returns True. Otherwise, it returns False.
     """
-
     # Number of boxes
     n = len(boxes)
 
     # A set to keep track of opened boxes
     opened_boxes = set()
 
-    # Initialize the queue with the first box (box 0)
-    queue = [0]
+    # Recursive function to perform DFS and open boxes
+    def dfs(current_box):
+        # If the current box is already opened, return
+        if current_box in opened_boxes:
+            return
 
-    # Add the first box to the set of opened boxes
-    opened_boxes.add(0)
-
-    # Process the queue
-    while queue:
-        # Get the current box index from the front of the queue
-        current_box = queue.pop(0)
+        # Mark the current box as opened
+        opened_boxes.add(current_box)
 
         # Iterate through each key in the current box
         for key in boxes[current_box]:
-            # If the key corresponds to a box that has not yet been opened
-            if key < n and key not in opened_boxes:
-                # Add the box to the set of opened boxes
-                opened_boxes.add(key)
+            # If the key corresponds to a valid box index,
+            # recursively open the box
+            if 0 <= key < n:
+                dfs(key)
 
-                # Add the box index to the queue for further processing
-                queue.append(key)
+    # Start the DFS from the first box (box 0)
+    dfs(0)
 
+    # Return True if all boxes are opened, else return False
     return len(opened_boxes) == n
