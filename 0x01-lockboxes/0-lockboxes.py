@@ -1,3 +1,7 @@
+#!/usr/bin/python
+""" Lockboxes interview challenge """
+
+
 def canUnlockAll(boxes):
     """
     Determines whether all boxes in a given list of boxes can be unlocked
