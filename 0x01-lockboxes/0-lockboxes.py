@@ -26,33 +26,14 @@ def canUnlockAll(boxes):
     is equal to the total number of boxes), the function
     returns True. Otherwise, it returns False.
     """
-    # Number of boxes
     n = len(boxes)
-
-    # A set to keep track of opened boxes
-    opened_boxes = set()
-
-    # A queue for breadth-first search (BFS)
-    queue = []
-
-    # Start the BFS from the first box (box 0)
-    queue.append(0)
-    opened_boxes.add(0)
-
-    # Process the queue
-    while queue:
-        # Get the current box index from the front of the queue
-        current_box = queue.pop(0)
-
-        # Iterate through each key in the current box
-        for key in boxes[current_box]:
-            # If the key corresponds to a box that has not yet been opened
-            if key < n and key not in opened_boxes:
-                # Add the box to the set of opened boxes
-                opened_boxes.add(key)
-
-                # Add the box index to the queue for further processing
-                queue.append(key)
-
-    # Return True if all boxes are opened, otherwise False
-    return len(opened_boxes) == n
+    seen_boxes = set([0])
+    unseen_boxes = set(boxes[0]).difference(set([0]))
+    while len(unseen_boxes) > 0:
+        boxIdx = unseen_boxes.pop()
+        if not boxIdx or boxIdx >= n or boxIdx < 0:
+            continue
+        if boxIdx not in seen_boxes:
+            unseen_boxes = unseen_boxes.union(boxes[boxIdx])
+            seen_boxes.add(boxIdx)
+    return n == len(seen_boxes)
