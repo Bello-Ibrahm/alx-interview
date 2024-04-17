@@ -32,24 +32,27 @@ def canUnlockAll(boxes):
     # A set to keep track of opened boxes
     opened_boxes = set()
 
-    # Recursive function to perform DFS and open boxes
-    def dfs(current_box):
-        # If the current box is already opened, return
-        if current_box in opened_boxes:
-            return
+    # A queue for breadth-first search (BFS)
+    queue = []
 
-        # Mark the current box as opened
-        opened_boxes.add(current_box)
+    # Start the BFS from the first box (box 0)
+    queue.append(0)
+    opened_boxes.add(0)
+
+    # Process the queue
+    while queue:
+        # Get the current box index from the front of the queue
+        current_box = queue.pop(0)
 
         # Iterate through each key in the current box
         for key in boxes[current_box]:
-            # If the key corresponds to a valid box index,
-            # recursively open the box
-            if 0 <= key < n:
-                dfs(key)
+            # If the key corresponds to a box that has not yet been opened
+            if key < n and key not in opened_boxes:
+                # Add the box to the set of opened boxes
+                opened_boxes.add(key)
 
-    # Start the DFS from the first box (box 0)
-    dfs(0)
+                # Add the box index to the queue for further processing
+                queue.append(key)
 
-    # Return True if all boxes are opened, else return False
+    # Return True if all boxes are opened, otherwise False
     return len(opened_boxes) == n
